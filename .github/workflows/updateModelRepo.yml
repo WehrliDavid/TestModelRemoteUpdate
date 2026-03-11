@@ -10,6 +10,15 @@ jobs:
   update-models:
     runs-on: ubuntu-latest
     steps:
-      - name: get dispach info
-        run: |
-          remoteRepo=$
+     - name: Checkout the repo that triggered this workflow
+       uses: actions/checkout@v4
+       with:
+          repository: ${{ github.event.client_payload.repo }}
+          ref: ${{ github.event.client_payload.sha }}
+          token: ${{ secrets.DISPATCH_TOKEN }}  # needs read access to source repo
+     - name: Confirm what we checked out
+       run: |
+           echo "Repo: ${{ github.event.client_payload.repo }}"
+           echo "SHA:  ${{ github.event.client_payload.sha }}"
+           echo "Ref:  ${{ github.event.client_payload.ref }}"
+           git log --oneline -5
