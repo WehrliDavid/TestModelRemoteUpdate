@@ -1,0 +1,15 @@
+name: update Model Repository
+
+on: 
+  repository_dispatch:
+    types:
+      - update
+
+jobs:
+#copies and replaces the updated models of the repository which triggered this action
+  update-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get dispach info
+        run: |
+          remoteRepo=$
