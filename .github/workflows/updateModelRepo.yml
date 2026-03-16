@@ -15,7 +15,7 @@ jobs:
        with:
           repository: ${{ github.event.client_payload.repo }}
           ref: ${{ github.event.client_payload.sha }}
-          token: ${{ secrets.DISPATCH_TOKEN }}  # needs read access to source repo
+          token: ${{ secrets.TEST_REMOTE_CONTROLE }}  # needs read access to source repo
      - name: Confirm what we checked out
        run: |
            echo "Repo: ${{ github.event.client_payload.repo }}"
