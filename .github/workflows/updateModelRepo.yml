@@ -23,7 +23,7 @@ jobs:
      - name: Confirm what we checked out
        run: |
            git status
-           ls
+           ls source_repo
            echo "---------------------------------------------"
            echo "Repo: ${{ github.event.client_payload.repo }}"
            echo "SHA:  ${{ github.event.client_payload.sha }}"
