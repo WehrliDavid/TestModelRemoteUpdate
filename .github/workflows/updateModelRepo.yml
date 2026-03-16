@@ -24,8 +24,6 @@ jobs:
        run: |
            git status
            ls
-           cd .. 
-           ls
            echo "---------------------------------------------"
            echo "Repo: ${{ github.event.client_payload.repo }}"
            echo "SHA:  ${{ github.event.client_payload.sha }}"
