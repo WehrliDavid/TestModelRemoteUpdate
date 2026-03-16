@@ -12,14 +12,14 @@ jobs:
     steps:
      - name: Checkout THIS repository first
        uses: actions/checkout@v4
-       with:
-         token: ${{ secrets.TEST_REMOTE_CONTROLE }}   
+       
      - name: Checkout the repo that triggered this workflow
        uses: actions/checkout@v4
        with:
           repository: ${{ github.event.client_payload.repo }}
           ref: ${{ github.event.client_payload.sha }}
           token: ${{ secrets.TEST_REMOTE_CONTROLE }}  # needs read access to source repo
+          path: source_repo
      - name: Confirm what we checked out
        run: |
            git status
