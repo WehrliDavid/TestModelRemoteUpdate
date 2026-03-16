@@ -21,4 +21,7 @@ jobs:
            echo "Repo: ${{ github.event.client_payload.repo }}"
            echo "SHA:  ${{ github.event.client_payload.sha }}"
            echo "Ref:  ${{ github.event.client_payload.ref }}"
+           echo "Add:  ${{ github.event.client_payload.add }}"
+           echo "Modify:  ${{ github.event.client_payload.modify }}"
+           echo "Delete:  ${{ github.event.client_payload.delete }}"
            git log --oneline -5
