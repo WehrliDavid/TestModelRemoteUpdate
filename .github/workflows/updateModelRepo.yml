@@ -48,7 +48,7 @@ jobs:
             cp -v "$file" ../../repository
             cd ../..
             git add repository/*.ili
-            git diff-index --quiet HEAD || (git commit -m "Files $file added to the repository" && git push"
+            git diff-index --quiet HEAD || (git commit -m "Files $file added to the repository" && git push)
           fi
            
           git log --oneline -5
