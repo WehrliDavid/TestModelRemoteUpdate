@@ -34,7 +34,7 @@ jobs:
            echo "Delete:  ${{ github.event.client_payload.delete }}"
 
            if [ "${{ github.event.client_payload.add }}" != "" ]; then
-             cp -v /source_repo/"${{ github.event.client_payload.add }}" /repository
+             cp -v "/source_repo/${{ github.event.client_payload.add }}" /repository
            fi
 
 
