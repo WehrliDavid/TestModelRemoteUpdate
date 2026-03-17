@@ -42,6 +42,11 @@ jobs:
              cp -v "$file" ../../repository
            fi
            
+           echo "cd"
+           cd ../..
+           echo "ls"
+           ls
+           
            git status
            
 
