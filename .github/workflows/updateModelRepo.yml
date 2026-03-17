@@ -36,9 +36,9 @@ jobs:
            add_path=${{ github.event.client_payload.add }}
            folder=$(dirname "$add_path")
            file=$(basename "$add_path")
-            
+           cd "source_repo/$folder"
            if [ "${{ github.event.client_payload.add }}" != "" ]; then
-             cd "source_repo/$folder"
+             
              cp -v "$file" ../../repository
            fi
 
