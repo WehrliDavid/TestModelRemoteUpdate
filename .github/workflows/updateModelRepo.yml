@@ -40,14 +40,10 @@ jobs:
            
            if [ "${{ github.event.client_payload.add }}" != "" ]; then
              cp -v "$file" ../../repository
+             cd ../..
+             git add repository/*.ili
+             git commit -m "Files $file added to the repository"
            fi
-           
-           echo "cd"
-           cd ../..
-           echo "ls"
-           ls
-           
-           git status
            
 
            
