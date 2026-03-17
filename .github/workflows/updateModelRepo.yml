@@ -10,41 +10,45 @@ jobs:
   update-models:
     runs-on: ubuntu-latest
     steps:
-     - name: Checkout THIS repository first
-       uses: actions/checkout@v4
+      - name: Checkout THIS repository first
+        uses: actions/checkout@v4
        
-     - name: Checkout the repo that triggered this workflow
-       uses: actions/checkout@v4
-       with:
+      - name: Checkout the repo that triggered this workflow
+        uses: actions/checkout@v4
+        with:
           repository: ${{ github.event.client_payload.repo }}
           ref: ${{ github.event.client_payload.sha }}
           token: ${{ secrets.TEST_REMOTE_CONTROLE }}  # needs read access to source repo
           path: source_repo
-     - name: Confirm what we checked out
-       run: |
-           ls
-           ls source_repo
-           ls source_repo/models
-           echo "---------------------------------------------"
-           echo "Repo: ${{ github.event.client_payload.repo }}"
-           echo "SHA:  ${{ github.event.client_payload.sha }}"
-           echo "Ref:  ${{ github.event.client_payload.ref }}"
-           echo "Add:  ${{ github.event.client_payload.add }}"
-           echo "Modify:  ${{ github.event.client_payload.modify }}"
-           echo "Delete:  ${{ github.event.client_payload.delete }}"
 
-           add_path=${{ github.event.client_payload.add }}
-           folder=$(dirname "$add_path")
-           file=$(basename "$add_path")
-           cd "source_repo/$folder"
+      - name: Configure git
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Action"
+          
+      - name: Confirm what we checked out
+        run: |
+          ls
+          ls source_repo
+          ls source_repo/models
+          echo "---------------------------------------------"
+          echo "Repo: ${{ github.event.client_payload.repo }}"
+          echo "SHA:  ${{ github.event.client_payload.sha }}"
+          echo "Ref:  ${{ github.event.client_payload.ref }}"
+          echo "Add:  ${{ github.event.client_payload.add }}"
+          echo "Modify:  ${{ github.event.client_payload.modify }}"
+          echo "Delete:  ${{ github.event.client_payload.delete }}"
+          
+          add_path=${{ github.event.client_payload.add }}
+          folder=$(dirname "$add_path")
+          file=$(basename "$add_path")
+          cd "source_repo/$folder"
            
-           if [ "${{ github.event.client_payload.add }}" != "" ]; then
-             cp -v "$file" ../../repository
-             cd ../..
-             git add repository/*.ili
-             git commit -m "Files $file added to the repository"
-           fi
+          if [ "${{ github.event.client_payload.add }}" != "" ]; then
+            cp -v "$file" ../../repository
+            cd ../..
+            git add repository/*.ili
+            git commit -m "Files $file added to the repository"
+          fi
            
-
-           
-           git log --oneline -5
+          git log --oneline -5
