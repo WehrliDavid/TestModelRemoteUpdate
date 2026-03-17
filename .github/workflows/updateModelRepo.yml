@@ -24,6 +24,7 @@ jobs:
        run: |
            ls
            ls source_repo
+           ls source_repo/models
            echo "---------------------------------------------"
            echo "Repo: ${{ github.event.client_payload.repo }}"
            echo "SHA:  ${{ github.event.client_payload.sha }}"
