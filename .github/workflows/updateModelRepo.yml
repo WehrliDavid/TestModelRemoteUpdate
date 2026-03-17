@@ -30,7 +30,7 @@ jobs:
            echo "Modify:  ${{ github.event.client_payload.modify }}"
            echo "Delete:  ${{ github.event.client_payload.delete }}"
 
-           if [ "${{ github.event.client_payload.add }}" != ""] then
+           if [ "${{ github.event.client_payload.add }}" != "" ]; then
              echo "something was added"
            fi
 
