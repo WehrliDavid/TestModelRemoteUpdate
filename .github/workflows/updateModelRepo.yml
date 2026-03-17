@@ -32,6 +32,7 @@ jobs:
 
            if [ "${{ github.event.client_payload.add }}" != ""] then
              echo "something was added"
+           fi
 
 
 
