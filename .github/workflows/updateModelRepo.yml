@@ -9,6 +9,8 @@ jobs:
 #copies and replaces the updated models of the repository which triggered this action
   update-models:
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write
     steps:
       - name: Checkout THIS repository first
         uses: actions/checkout@v4
