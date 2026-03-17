@@ -33,8 +33,13 @@ jobs:
            echo "Modify:  ${{ github.event.client_payload.modify }}"
            echo "Delete:  ${{ github.event.client_payload.delete }}"
 
+           add_path=${{ github.event.client_payload.add }}
+           folder=$(dirname "$add_path")
+           file=$(basename "$add_path")
+            
            if [ "${{ github.event.client_payload.add }}" != "" ]; then
-             cp -v "/source_repo/${{ github.event.client_payload.add }}" /repository
+             cd "$folder"
+             cp -v "$file" ../../repository
            fi
 
 
