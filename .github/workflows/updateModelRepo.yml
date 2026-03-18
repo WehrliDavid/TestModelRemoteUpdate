@@ -52,11 +52,11 @@ jobs:
               cd "source_repo/$folder"
               cp -v "$file" ../../repository
               cd ../..
-              files+=($"file")
+              files+=("$file")
             done
           fi
           
-          files_str=$(IFS=,; echo "${mod_files[*]}")
+          files_str=$(IFS=,; echo "${files[*]}")
           echo "files=$files_str" >> "$GITHUB_OUTPUT"
           
       - name: modlify Models in the Model Repository
@@ -73,11 +73,11 @@ jobs:
               cd "source_repo/$folder"
               cp -v "$file" ../../repository
               cd ../..
-              files+=($"file")
+              files+=("$file")
             done
           fi
           
-          files_str=$(IFS=,; echo "${mod_files[*]}")
+          files_str=$(IFS=,; echo "${files[*]}")
           echo "files=$files_str" >> "$GITHUB_OUTPUT"
           
       - name: Commit the Changes to the GitRepo
