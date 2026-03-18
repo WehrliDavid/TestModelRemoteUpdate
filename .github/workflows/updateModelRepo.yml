@@ -83,12 +83,13 @@ jobs:
       - name: Commit the Changes to the GitRepo
         run: |
           if [ "${{ github.event.client_payload.add }}" != "" ]; then
+            files="${{ steps.add.outputs.files }}"
             git add repository/*.ili
-            git diff-index --quiet HEAD || (git commit -m "Files ${{ steps.add.outputs.files }} added to the repository" && git push)
+            git diff-index --quiet HEAD || (git commit -m "Files $files added to the repository" && git push)
           fi
           
           if [ "${{ github.event.client_payload.modify }}" != "" ]; then
-            echo "${{ steps.modify.outputs.files }}"
+            files="${{ steps.modify.outputs.files }}"
             git add repository/*.ili
             git diff-index --quiet HEAD || (git commit -m "Files $files modified in the repository" && git push)
           fi
