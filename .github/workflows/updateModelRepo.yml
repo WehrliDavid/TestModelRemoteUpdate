@@ -88,8 +88,9 @@ jobs:
           fi
           
           if [ "${{ github.event.client_payload.modify }}" != "" ]; then
+            echo "${{ steps.modify.outputs.files }}"
             git add repository/*.ili
-            git diff-index --quiet HEAD || (git commit -m "Files ${{ steps.modify.outputs.files }} modified in the repository" && git push)
+            git diff-index --quiet HEAD || (git commit -m "Files $files modified in the repository" && git push)
           fi
            
           git log --oneline -5
