@@ -39,7 +39,10 @@ jobs:
           echo "Delete:  ${{ github.event.client_payload.delete }}"
       
       - name: add new Models to the Model Repository
+        id: add
         run: |
+          files=()
+          
           if [ "${{ github.event.client_payload.add }}" != "" ]; then
             IFS=',' read -ra add_paths <<< "${{ github.event.client_payload.add }}"
             
@@ -49,33 +52,44 @@ jobs:
               cd "source_repo/$folder"
               cp -v "$file" ../../repository
               cd ../..
+              files+=($"file")
             done
           fi
           
+          files_str=$(IFS=,; echo "${mod_files[*]}")
+          echo "files=$files_str" >> "$GITHUB_OUTPUT"
+          
       - name: modlify Models in the Model Repository
+        id: modify
         run: |
+          files=()
+          
           if [ "${{ github.event.client_payload.modify }}" != "" ]; then          
             IFS=',' read -ra mod_paths <<< "${{ github.event.client_payload.modify }}"
-
+            
             for mod_path in "${mod_paths[@]}"; do
               folder=$(dirname "$mod_path")
               file=$(basename "$mod_path")
               cd "source_repo/$folder"
               cp -v "$file" ../../repository
               cd ../..
+              files+=($"file")
             done
           fi
+          
+          files_str=$(IFS=,; echo "${mod_files[*]}")
+          echo "files=$files_str" >> "$GITHUB_OUTPUT"
           
       - name: Commit the Changes to the GitRepo
         run: |
           if [ "${{ github.event.client_payload.add }}" != "" ]; then
             git add repository/*.ili
-            git diff-index --quiet HEAD || (git commit -m "Files $file added to the repository" && git push)
+            git diff-index --quiet HEAD || (git commit -m "Files ${{ steps.add.outputs.files }} added to the repository" && git push)
           fi
           
           if [ "${{ github.event.client_payload.modify }}" != "" ]; then
             git add repository/*.ili
-            git diff-index --quiet HEAD || (git commit -m "Files $file modified in the repository" && git push)
+            git diff-index --quiet HEAD || (git commit -m "Files ${{ steps.modify.outputs.files }} modified in the repository" && git push)
           fi
            
           git log --oneline -5
