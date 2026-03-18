@@ -41,7 +41,7 @@ jobs:
       - name: add new Models to the Model Repository
         run: |
           if [ "${{ github.event.client_payload.add }}" != "" ]; then
-            IFS=',' read -ra add_paths <<< ${{ github.event.client_payload.add }}
+            IFS=',' read -ra add_paths <<< "${{ github.event.client_payload.add }}"
             
             for add_path in "${add_paths[@]}"; do
               folder=$(dirname "$add_path")
@@ -54,8 +54,8 @@ jobs:
           
       - name: modlify Models in the Model Repository
         run: |
-          if [ "${{ github.event.client_payload.add }}" != "" || "${{ github.event.client_payload.modify }}" != "" ]; then          
-            IFS=',' read -ra mod_paths <<< ${{ github.event.client_payload.modify }}
+          if [ "${{ github.event.client_payload.modify }}" != "" ]; then          
+            IFS=',' read -ra mod_paths <<< "${{ github.event.client_payload.modify }}"
 
             for mod_path in "${mod_paths[@]}"; do
               folder=$(dirname "$mod_path")
@@ -68,9 +68,14 @@ jobs:
           
       - name: Commit the Changes to the GitRepo
         run: |
-          if [ "${{ github.event.client_payload.add }}" != "" || "${{ github.event.client_payload.modify }}" != "" ]; then
+          if [ "${{ github.event.client_payload.add }}" != "" ]; then
             git add repository/*.ili
             git diff-index --quiet HEAD || (git commit -m "Files $file added to the repository" && git push)
+          fi
+          
+          if [ "${{ github.event.client_payload.modify }}" != "" ]; then
+            git add repository/*.ili
+            git diff-index --quiet HEAD || (git commit -m "Files $file modified in the repository" && git push)
           fi
            
           git log --oneline -5
